@@ -1,11 +1,13 @@
 import jwt_decode from "jwt-decode";
-// import store from "../redux/combineStore";
-// import { loginUserAction } from "../features/auth/actions/auth.types";
 
 export const getTokenData = () => {
   if (localStorage.jwtToken) {
-    const decoded = jwt_decode(localStorage.jwtToken);
-    return decoded;
-    // store.dispatch(loginUserAction(decoded));
+    return jwt_decode(localStorage.jwtToken);
   }
+};
+
+export const setToken = (response) => {
+  const { token } = response.data;
+  localStorage.setItem("jwtToken", token);
+  return null;
 };
