@@ -8,11 +8,19 @@ import { PASSWORD_REQUIRED, USERNAME_REQUIRED } from "constants/features/auth";
 import SnackBar from "elements/snackBar/snackBar";
 import LoginForm from "./loginForm";
 import { Stack } from "../auth.styles";
+import { setToken, getTokenData } from "utils/getToken";
 
 export const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const token = getTokenData();
+    if (token?.username) {
+      navigate("/tasks");
+    }
+  }, []);
 
   useEffect(() => {
     if (error.length > 0) {
@@ -35,7 +43,9 @@ export const Login = () => {
     };
     setError("");
     try {
-      await instance.post("/users/login", jsonData);
+      const response = await instance.post("/users/login", jsonData);
+      setToken(response);
+
       navigate("/tasks");
     } catch (error) {
       setOpen(true);

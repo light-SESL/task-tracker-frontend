@@ -12,11 +12,20 @@ import SnackBar from "elements/snackBar/snackBar";
 import { Stack } from "../auth.styles";
 import RegistrationForm from "./registrationForm";
 import { instance } from "../../../config/client";
+import { getTokenData, setToken } from "../../../utils/getToken";
 
 export const Registration = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    const token = getTokenData();
+    if (token?.username) {
+      navigate("/tasks");
+    }
+  }, []);
+
   useEffect(() => {
     if (error.length > 0) {
       setOpen(true);
@@ -37,16 +46,16 @@ export const Registration = () => {
 
   const handleSubmit = async (values) => {
     const { username, password, confirmPassword } = values;
-    const jsonData = {
-      username,
-      password,
-      confirmPassword,
-    };
     if (password !== confirmPassword) {
       setError("Password and confirm Password are not the same, please check");
     } else {
       try {
-        await instance.post("/users", jsonData);
+        const jsonData = {
+          username,
+          password,
+        };
+        const response = await instance.post("/users", jsonData);
+        setToken(response);
         navigate("/tasks");
       } catch (error) {
         setError("Something went wrong, please review inputs");
