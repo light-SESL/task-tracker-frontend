@@ -6,9 +6,9 @@ import * as Yup from "yup";
 import { instance } from "config/client";
 import { PASSWORD_REQUIRED, USERNAME_REQUIRED } from "constants/features/auth";
 import SnackBar from "elements/snackBar/snackBar";
+import { setToken, getTokenData } from "utils/getToken";
 import LoginForm from "./loginForm";
 import { Stack } from "../auth.styles";
-import { setToken, getTokenData } from "utils/getToken";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -47,11 +47,11 @@ export const Login = () => {
       setToken(response);
 
       navigate("/tasks");
-    } catch (error) {
+    } catch (e) {
       setOpen(true);
       setError("Something went wrong, please review inputs");
-      console.error(error);
-      throw error;
+      console.error(e);
+      throw e;
     }
   };
 

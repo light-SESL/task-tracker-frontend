@@ -57,7 +57,7 @@ export const Registration = () => {
         const response = await instance.post("/users", jsonData);
         setToken(response);
         navigate("/tasks");
-      } catch (error) {
+      } catch (e) {
         setError("Something went wrong, please review inputs");
         console.error(error);
         throw error;
