@@ -1,6 +1,15 @@
 import React from "react";
 import { Form } from "formik";
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 import CustomButton from "elements/customButton/customButton";
 import Modal from "elements/modal/modal";
 import { COLORS } from "styles/theme";
@@ -71,19 +80,22 @@ const TaskModal = ({ setOpen, title, formik }) => {
               </Box>
               <Box mt={2}>
                 <Typography variant="w7">Status</Typography>
-                <MUITextField
-                  size="small"
-                  name="status"
-                  value={values.status}
-                  onChange={handleChange}
-                  error={touched.status && Boolean(errors.status)}
-                  helperText={touched.status && errors.status}
-                  variant="filled"
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
-                  sx={{ mt: 1.3 }}
-                />
+                <FormControl size="small" variant="filled" sx={{ mt: 1.3, width: "100%" }}>
+                  <InputLabel id="status-label">Status</InputLabel>
+                  <Select
+                    labelId="status-label"
+                    id="status"
+                    name="status"
+                    value={values.status}
+                    onChange={handleChange}
+                    error={touched.status && Boolean(errors.status)}
+                    label="Status"
+                    sx={{ "& .MuiSelect-root": { mt: 1.3 } }}
+                  >
+                    <MenuItem value="Pending">Pending</MenuItem>
+                    <MenuItem value="Completed">Completed</MenuItem>
+                  </Select>
+                </FormControl>
               </Box>
               <Box mt={2}>
                 <Typography variant="w7">Due Date</Typography>
