@@ -12,11 +12,12 @@ const EditTask = ({
   taskId,
 }) => {
   const [taskData, setTaskData] = useState({});
+  const defaultDueDate = new Date("2023-04-20T21:00:00.000Z");
   const defaultValues = {
     title: taskData?.title || "",
     description: taskData?.description || "",
     status: taskData?.status || "",
-    dueDate: taskData?.dueDate || "",
+    dueDate: defaultDueDate,
   };
   useEffect(() => {
     (async () => {
