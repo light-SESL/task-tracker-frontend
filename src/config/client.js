@@ -14,7 +14,7 @@ export const instance = axios.create({
 const manageToken = (config) => {
   const newConfig = { ...config };
   if (localStorage.jwtToken) {
-    newConfig.headers.Authorization = localStorage.jwtToken;
+    newConfig.headers.Authorization = `Bearer ${localStorage.jwtToken}`;
   } else {
     delete newConfig.headers.Authorization;
   }
