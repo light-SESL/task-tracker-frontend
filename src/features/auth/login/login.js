@@ -9,7 +9,6 @@ import SnackBar from "elements/snackBar/snackBar";
 import { setToken, getTokenData } from "utils/getToken";
 import LoginForm from "./loginForm";
 import { Stack } from "../auth.styles";
-import { setToken, getTokenData } from "utils/getToken";
 
 export const Login = () => {
   const navigate = useNavigate();

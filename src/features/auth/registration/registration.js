@@ -59,8 +59,8 @@ export const Registration = () => {
         navigate("/tasks");
       } catch (e) {
         setError("Something went wrong, please review inputs");
-        console.error(error);
-        throw error;
+        console.error(e);
+        throw e;
       }
     }
   };

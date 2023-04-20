@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
+import { Box, ListItemText, MenuItem, Stack, Typography } from "@mui/material";
 import { COLORS } from "styles/theme";
 import { AppContext } from "App";
 import DataGridContainer from "components/dataGridContainer/dataGridContainer";
 import DataGrid from "elements/dataGrid/dataGrid";
 import KebabMenu from "components/kebabMenu/kebabMenu";
 import DeleteModal from "components/deleteModal/deleteModal";
-import { Box, ListItemText, MenuItem, Stack, Typography } from "@mui/material";
+import Navbar from "components/navbar/navbar";
 import { getAllTasks, deleteATask } from "../tasks.api";
 import { MUIStack } from "../tasks.styles";
 import AddTask from "../addTask/addTask";
@@ -138,7 +139,7 @@ const columns = [
 ];
 
 const GetTasks = () => {
-  const { reload } = useContext(AppContext);
+  const { reload, tokenData } = useContext(AppContext);
   const [tasks, setTasks] = useState([]);
   const [openAdd, setOpenAdd] = useState(false);
   const [taskHeadings, setTaskHeadings] = useState([]);
@@ -166,8 +167,10 @@ const GetTasks = () => {
       setTasks(cleanedTasks);
     })();
   }, [reloadPage, reload]);
+
   return (
     <>
+      <Navbar username={tokenData?.username || ""} />
       <DataGridContainer
         headings={taskHeadings}
         setOpenAdd={setOpenAdd}
