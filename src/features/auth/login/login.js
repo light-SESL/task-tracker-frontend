@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
@@ -9,9 +9,11 @@ import SnackBar from "elements/snackBar/snackBar";
 import { setToken, getTokenData } from "utils/getToken";
 import LoginForm from "./loginForm";
 import { Stack } from "../auth.styles";
+import { AppContext } from "../../../App";
 
 export const Login = () => {
   const navigate = useNavigate();
+  const { setUserToken } = useContext(AppContext);
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -44,6 +46,7 @@ export const Login = () => {
     setError("");
     try {
       const response = await instance.post("/users/login", jsonData);
+      setUserToken(response.data.token);
       setToken(response);
 
       navigate("/tasks");
