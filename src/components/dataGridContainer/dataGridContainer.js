@@ -2,10 +2,17 @@ import React from "react";
 import {
   Box,
   Container as MUIContainer,
+  InputAdornment,
   Stack,
   Typography,
 } from "@mui/material";
-import { Container, MuiStack } from "./dataGridContainer.styles";
+import { Search as SearchIcon } from "@mui/icons-material";
+import {
+  Container,
+  MuiStack,
+  MUITextField,
+  SvgIcon,
+} from "./dataGridContainer.styles";
 
 export const DataGridContainer = ({
   children,
@@ -14,6 +21,8 @@ export const DataGridContainer = ({
   headings,
   setOpenAdd,
   buttonTitle,
+  setSearchParams,
+  searchParams,
 }) => (
   <MUIContainer>
     <Container width="100%" margin={margin} border={border}>
@@ -47,16 +56,34 @@ export const DataGridContainer = ({
             </Stack>
           ))}
         </Stack>
-        <MuiStack justifyContent="space-evenly" mt={2} mb={0.5} mr={5}>
-          <Typography
-            variant="w9"
-            onClick={() => setOpenAdd(true)}
-            data-testid="add-client"
-            sx={{ cursor: "pointer" }}
-          >
-            {buttonTitle}
-          </Typography>
-        </MuiStack>
+        <Stack direction="row" mt={2} mb={0.5} mr={5} gap={2}>
+          <MUITextField
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start" sx={{ marginTop: 0 }}>
+                  <SvgIcon>
+                    <SearchIcon />
+                  </SvgIcon>
+                </InputAdornment>
+              ),
+            }}
+            variant="outlined"
+            width="15rem"
+            value={searchParams}
+            onChange={(e) => setSearchParams(e.target.value)}
+            placeholder="Search tasks"
+          />
+          <MuiStack justifyContent="space-evenly" sx={{ width: "9.5rem" }}>
+            <Typography
+              variant="w9"
+              onClick={() => setOpenAdd(true)}
+              data-testid="add-client"
+              sx={{ cursor: "pointer" }}
+            >
+              {buttonTitle}
+            </Typography>
+          </MuiStack>
+        </Stack>
       </Stack>
 
       {children}

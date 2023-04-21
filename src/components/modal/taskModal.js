@@ -1,6 +1,19 @@
 import React from "react";
 import { Form } from "formik";
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import dayjs from "dayjs";
+import {
+  Box,
+  Divider,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import CustomButton from "elements/customButton/customButton";
 import Modal from "elements/modal/modal";
 import { COLORS } from "styles/theme";
@@ -13,7 +26,9 @@ import {
 import ModalHeader from "../modalHeader/modalHeader";
 
 const TaskModal = ({ setOpen, title, formik }) => {
-  const { handleSubmit, values, touched, errors, handleChange } = formik;
+  const { handleSubmit, values, touched, errors, handleChange, setFieldValue } =
+    formik;
+  const defaultDate = dayjs(values.dueDate);
   return (
     <Modal
       open
@@ -71,34 +86,59 @@ const TaskModal = ({ setOpen, title, formik }) => {
               </Box>
               <Box mt={2}>
                 <Typography variant="w7">Status</Typography>
-                <MUITextField
+                <FormControl
                   size="small"
-                  name="status"
-                  value={values.status}
-                  onChange={handleChange}
-                  error={touched.status && Boolean(errors.status)}
-                  helperText={touched.status && errors.status}
                   variant="filled"
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
-                  sx={{ mt: 1.3 }}
-                />
+                  sx={{ mt: 1.3, width: "100%" }}
+                >
+                  <InputLabel id="status-label">Status</InputLabel>
+                  <Select
+                    labelId="status-label"
+                    id="status"
+                    name="status"
+                    value={values.status}
+                    onChange={handleChange}
+                    error={touched.status && Boolean(errors.status)}
+                    label="Status"
+                    sx={{ "& .MuiSelect-root": { mt: 1.3 } }}
+                  >
+                    <MenuItem value="Pending">Pending</MenuItem>
+                    <MenuItem value="Completed">Completed</MenuItem>
+                  </Select>
+                </FormControl>
               </Box>
               <Box mt={2}>
                 <Typography variant="w7">Due Date</Typography>
-                <MUITextField
-                  size="small"
-                  name="dueDate"
-                  value={values.dueDate}
-                  onChange={handleChange}
-                  error={touched.dueDate && Boolean(errors.dueDate)}
-                  helperText={touched.dueDate && errors.dueDate}
-                  variant="filled"
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
-                />
+                <Box mt={2}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateTimePicker
+                      size="small"
+                      name="dueDate"
+                      value={defaultDate}
+                      onChange={(value) =>
+                        setFieldValue("dueDate", value, true)
+                      }
+                      error={touched.dueDate && Boolean(errors.dueDate)}
+                      helperText={touched.dueDate && errors.dueDate}
+                      inputFormat="dd/MM/yyyy"
+                      sx={{
+                        width: "100%",
+                        backgroundColor: "#eee",
+                        border: "none",
+                      }}
+                      renderInput={(params) => (
+                        <MUITextField
+                          {...params}
+                          variant="filled"
+                          InputProps={{
+                            disableUnderline: true,
+                          }}
+                        />
+                      )}
+                      views={["year", "month", "day", "hours", "minutes"]}
+                    />
+                  </LocalizationProvider>
+                </Box>
               </Box>
               <Box mt={2}>
                 <CustomButton

@@ -43,8 +43,13 @@ const Navbar = ({ username }) => {
             >
               {username}
             </Typography>
-            <Button color="inherit" onClick={handleClick}>
-              Logout
+            <Button
+              variant="text"
+              color="inherit"
+              onClick={handleClick}
+              sx={{ textTransform: "none" }}
+            >
+              Log Out
             </Button>
           </Stack>
         </Toolbar>

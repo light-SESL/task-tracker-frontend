@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import dayjs from "dayjs";
 import { Box, ListItemText, MenuItem, Stack, Typography } from "@mui/material";
 import { COLORS } from "styles/theme";
 import { AppContext } from "App";
@@ -61,7 +62,9 @@ const columns = [
     renderCell: (params) => (
       <MUIStack justifyContent="flex-start" pt={2} pl={2} width="100%">
         <Stack direction="row" gap={11}>
-          <Typography variant="w7">{params.value}</Typography>
+          <Typography variant="w7">
+            {params.value && dayjs(params.value).format("MM/DD/YYYY h:mm A")}
+          </Typography>
         </Stack>
       </MUIStack>
     ),
@@ -144,11 +147,16 @@ const GetTasks = () => {
   const [openAdd, setOpenAdd] = useState(false);
   const [taskHeadings, setTaskHeadings] = useState([]);
   const [reloadPage, setReloadPage] = useState(false);
+  const [searchParams, setSearchParams] = useState("");
 
   useEffect(() => {
     (async () => {
       const data = await getAllTasks();
-      const cleanedTasks = data.map((item) => ({
+      const filteredTasks = data?.filter((task) =>
+        task?.title.toLowerCase().includes(searchParams?.toLowerCase())
+      );
+
+      const cleanedTasks = filteredTasks.map((item) => ({
         ...item,
         id: item._id,
         taskStatus: item.status,
@@ -166,7 +174,7 @@ const GetTasks = () => {
       setTaskHeadings(headings);
       setTasks(cleanedTasks);
     })();
-  }, [reloadPage, reload]);
+  }, [reloadPage, reload, searchParams]);
 
   return (
     <>
@@ -175,6 +183,8 @@ const GetTasks = () => {
         headings={taskHeadings}
         setOpenAdd={setOpenAdd}
         buttonTitle="Add Task"
+        setSearchParams={setSearchParams}
+        searchParams={searchParams}
       >
         <DataGrid
           columns={columns}
@@ -183,6 +193,7 @@ const GetTasks = () => {
           height="27rem"
           headerHeight={2}
           hideColumn="id"
+          searchParams={searchParams}
         />
       </DataGridContainer>
       {openAdd && (

@@ -16,7 +16,7 @@ const EditTask = ({
     title: taskData?.title || "",
     description: taskData?.description || "",
     status: taskData?.status || "",
-    dueDate: taskData?.dueDate || "",
+    dueDate: new Date(taskData?.dueDate),
   };
   useEffect(() => {
     (async () => {
