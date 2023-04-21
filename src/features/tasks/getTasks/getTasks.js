@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 import { Box, ListItemText, MenuItem, Stack, Typography } from "@mui/material";
 import { COLORS } from "styles/theme";
 import { AppContext } from "App";
@@ -12,6 +13,7 @@ import { getAllTasks, deleteATask } from "../tasks.api";
 import { MUIStack } from "../tasks.styles";
 import AddTask from "../addTask/addTask";
 import EditTask from "../editTask/editTask";
+import { getTokenData } from "../../../utils/getToken";
 
 const columns = [
   { field: "id", headerName: "ID", width: 0 },
@@ -143,6 +145,7 @@ const columns = [
 
 const GetTasks = () => {
   const { reload, tokenData } = useContext(AppContext);
+  const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const [openAdd, setOpenAdd] = useState(false);
   const [taskHeadings, setTaskHeadings] = useState([]);
@@ -175,6 +178,13 @@ const GetTasks = () => {
       setTasks(cleanedTasks);
     })();
   }, [reloadPage, reload, searchParams]);
+
+  useEffect(() => {
+    const token = getTokenData();
+    if (!token?.username) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <>
