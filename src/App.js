@@ -11,10 +11,18 @@ export const AppContext = createContext();
 function App() {
   const [reload, setReload] = useState(false);
   const [tokenData, setTokenData] = useState(null);
+  const [userToken, setUserToken] = useState(null);
 
   const contextValue = useMemo(
-    () => ({ reload, setReload, tokenData }), // add tokenData to context value
-    [reload, setReload, tokenData]
+    () => ({
+      reload,
+      setReload,
+      tokenData,
+      setTokenData,
+      setUserToken,
+      userToken,
+    }), // add tokenData to context value
+    [reload, setReload, tokenData, setTokenData, setUserToken, userToken]
   );
 
   useEffect(() => {

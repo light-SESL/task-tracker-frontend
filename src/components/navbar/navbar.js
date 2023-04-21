@@ -10,13 +10,19 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useContext } from "react";
+import jwt_decode from "jwt-decode";
+import { AppContext } from "../../App";
 
 const Navbar = ({ username }) => {
   const navigate = useNavigate();
+  const { userToken } = useContext(AppContext);
   const handleClick = () => {
     localStorage.removeItem("jwtToken");
     navigate("/");
   };
+
+  const decoded = userToken && jwt_decode(userToken);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -41,7 +47,7 @@ const Navbar = ({ username }) => {
               sx={{ flexGrow: 1 }}
               mt={1.2}
             >
-              {username}
+              {decoded?.username ? decoded.username : username}
             </Typography>
             <Button
               variant="text"
