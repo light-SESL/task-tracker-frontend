@@ -39,7 +39,7 @@ const Navbar = ({ username }) => {
               variant="h6"
               component="div"
               sx={{ flexGrow: 1 }}
-              mt={1}
+              mt={1.2}
             >
               {username}
             </Typography>
