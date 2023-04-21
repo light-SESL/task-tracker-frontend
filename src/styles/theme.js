@@ -14,6 +14,7 @@ export const COLORS = {
   BLACK: "#000",
   METAL_GREY: "#97a2a2",
   DARK_BLUE: "#001257",
+  GREY_95: "#F1F1F2",
 };
 
 export const ONE_REM_TO_PX = 16;

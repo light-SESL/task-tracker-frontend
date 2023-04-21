@@ -135,7 +135,7 @@ const TaskModal = ({ setOpen, title, formik }) => {
                           }}
                         />
                       )}
-                      views={["year", "month", "day"]}
+                      views={["year", "month", "day", "hours", "minutes"]}
                     />
                   </LocalizationProvider>
                 </Box>
