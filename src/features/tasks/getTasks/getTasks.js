@@ -121,7 +121,7 @@ const columns = [
             {openEdit && (
               <EditTask
                 setOpen={setOpenEdit}
-                title="Edit Client"
+                taskTitle="Edit Task"
                 taskId={id}
                 reloadOnEdit={reload}
                 setReloadOnEdit={setReload}

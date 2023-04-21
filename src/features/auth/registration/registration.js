@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
@@ -13,9 +13,11 @@ import { Stack } from "../auth.styles";
 import RegistrationForm from "./registrationForm";
 import { instance } from "../../../config/client";
 import { getTokenData, setToken } from "../../../utils/getToken";
+import { AppContext } from "../../../App";
 
 export const Registration = () => {
   const navigate = useNavigate();
+  const { setUserToken } = useContext(AppContext);
   const [error, setError] = useState("");
   const [open, setOpen] = useState(true);
 
@@ -55,6 +57,7 @@ export const Registration = () => {
           password,
         };
         const response = await instance.post("/users", jsonData);
+        setUserToken(response.data.token);
         setToken(response);
         navigate("/tasks");
       } catch (e) {
